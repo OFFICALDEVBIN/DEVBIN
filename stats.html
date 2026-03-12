@@ -55,7 +55,7 @@
 </main>
 <footer class="ft"><p>Zeta &copy; 2026</p></footer>
 <script>
-!function(){var _0="WORKER_URL";fetch(_0+"/api/stats").then(function(r){return r.json()}).then(function(d){var _1=["members","online","verified","boosts","totalInvites","tickets","channels","roles"];_1.forEach(function(k,i){var _2=document.getElementById("v"+i);if(_2&&d[k]!=null)_2.textContent=d[k]});if(d.updatedAt){var _3=Date.now()-new Date(d.updatedAt).getTime(),_4=Math.floor(_3/1e3);var _5=_4<60?"just now":_4<3600?Math.floor(_4/60)+"m ago":_4<86400?Math.floor(_4/3600)+"h ago":Math.floor(_4/86400)+"d ago";document.getElementById("d1").textContent="Last updated "+_5}}).catch(function(){document.getElementById("d1").textContent="Could not load stats."})}();
+!function(){var _0="https://zeta-verify.scriptsforyou.workers.dev";fetch(_0+"/api/stats").then(function(r){return r.json()}).then(function(d){var _1=["members","online","verified","boosts","totalInvites","tickets","channels","roles"];_1.forEach(function(k,i){var _2=document.getElementById("v"+i);if(_2&&d[k]!=null)_2.textContent=d[k]});if(d.updatedAt){var _3=Date.now()-new Date(d.updatedAt).getTime(),_4=Math.floor(_3/1e3);var _5=_4<60?"just now":_4<3600?Math.floor(_4/60)+"m ago":_4<86400?Math.floor(_4/3600)+"h ago":Math.floor(_4/86400)+"d ago";document.getElementById("d1").textContent="Last updated "+_5}}).catch(function(){document.getElementById("d1").textContent="Could not load stats."})}();
 </script>
 </body>
 </html>
