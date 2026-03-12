@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zeta — Invite Leaderboard</title>
+  <meta name="theme-color" content="#00ae86">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span>Z</span>ETA</a>
+      <ul class="links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+        <li><a href="stats.html">Stats</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section-title" style="padding-top: 40px;">
+      <span class="badge" style="margin-bottom:16px; display:inline-block;">Top Inviters</span>
+      <h2>Invite Leaderboard</h2>
+      <p>Invite 5 people to earn the Scripter (Verified) role and unlock free scripts.</p>
+    </section>
+
+    <div id="leaderboard" class="leaderboard-list">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Loading leaderboard...</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Zeta &copy; 2025 &mdash; Built for the community.</p>
+  </footer>
+
+  <script>
+    // REPLACE with your Cloudflare Worker URL
+    const API_URL = "WORKER_URL";
+
+    async function loadLeaderboard() {
+      const container = document.getElementById("leaderboard");
+      try {
+        const res = await fetch(`${API_URL}/api/leaderboard`);
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+
+        if (!data.leaderboard || data.leaderboard.length === 0) {
+          container.innerHTML = `
+            <div class="loading">
+              <p>No invite data yet. Be the first to invite someone!</p>
+            </div>`;
+          return;
+        }
+
+        container.innerHTML = data.leaderboard.map((entry, i) => {
+          const rankClass = i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : "";
+          const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}`;
+          const avatarUrl = entry.avatar
+            ? `https://cdn.discordapp.com/avatars/${entry.user_id}/${entry.avatar}.png?size=80`
+            : `https://cdn.discordapp.com/embed/avatars/${parseInt(entry.user_id) % 5}.png`;
+
+          return `
+            <div class="lb-row ${rankClass} fade-up">
+              <div class="lb-rank ${rankClass}">${medal}</div>
+              <img class="lb-avatar" src="${avatarUrl}" alt="" onerror="this.style.display='none'">
+              <div class="lb-info">
+                <div class="lb-name">${escapeHtml(entry.username || "Unknown User")}</div>
+              </div>
+              <div class="lb-count">${entry.count} invite${entry.count !== 1 ? "s" : ""}</div>
+            </div>`;
+        }).join("");
+      } catch (e) {
+        container.innerHTML = `
+          <div class="loading">
+            <p>Could not load leaderboard. Try again later.</p>
+          </div>`;
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    loadLeaderboard();
+  </script>
+</body>
+</html>

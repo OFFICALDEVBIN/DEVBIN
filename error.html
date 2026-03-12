@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zeta — Verification Failed</title>
+  <meta name="theme-color" content="#00ae86">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="glow glow-1"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span>Z</span>ETA</a>
+      <ul class="links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="leaderboard.html">Leaderboard</a></li>
+        <li><a href="stats.html">Stats</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="result-page">
+      <div>
+        <div class="result-icon fade-up">❌</div>
+        <h1 class="error fade-up">Verification Failed</h1>
+        <p class="fade-up" id="error-msg">Something went wrong. Please try again.</p>
+        <div class="btn-group fade-up">
+          <a href="WORKER_URL/verify" class="btn btn-discord">Try Again</a>
+          <a href="index.html" class="btn btn-outline">Go Home</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Zeta &copy; 2025 &mdash; Built for the community.</p>
+  </footer>
+
+  <script>
+    // Show error reason from URL params
+    const params = new URLSearchParams(window.location.search);
+    const reason = params.get("reason");
+    if (reason) {
+      document.getElementById("error-msg").textContent = decodeURIComponent(reason);
+    }
+  </script>
+</body>
+</html>
